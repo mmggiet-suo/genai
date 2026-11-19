@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>生成式 AI 認證模擬測驗｜1. 生成式 AI 基礎知識</title>
+  <style>
+    :root {
+      --bg-page: #F9F8F4;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F2F4F8;
+      --primary: #1D5BD6;
+      --primary-hover: #1546A8;
+      --primary-light: #EBF2FF;
+      --primary-border: #ADC8FF;
+      --accent: #E67E22;
+      --accent-light: #FEF5EC;
+      --danger: #D9383A;
+      --danger-light: #FDEDED;
+      --danger-border: #F5B7B8;
+      --success: #1E8E54;
+      --success-light: #EAF7F0;
+      --success-border: #A8DFC1;
+      --text-main: #1E293B;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --border-light: #E2E8F0;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.07);
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-light);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: center;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(29, 91, 214, 0.25);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background-color: #FFFFFF;
+      color: var(--text-main);
+      border: 1.5px solid var(--border-light);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(230, 126, 34, 0.25);
+    }
+
+    .btn-accent:hover:not(:disabled) {
+      background-color: #D35400;
+    }
+
+    .btn-danger-outline {
+      background-color: #FFFFFF;
+      color: var(--danger);
+      border: 1.5px solid var(--danger-border);
+    }
+
+    .btn-danger-outline:hover:not(:disabled) {
+      background-color: var(--danger-light);
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-lg {
+      padding: 16px 36px;
+      font-size: 1.15rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* ================= HOME VIEW ================= */
+    .home-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .home-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .home-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .info-box {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      text-align: center;
+    }
+
+    .info-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .info-value.highlight-orange {
+      color: var(--accent);
+    }
+
+    .rules-box {
+      background-color: #FAFBFC;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      margin-bottom: 28px;
+    }
+
+    .rules-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rules-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 20px;
+    }
+
+    .rules-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .rules-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .start-action {
+      text-align: center;
+    }
+
+    /* ================= QUIZ VIEW ================= */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      padding: 12px 16px;
+      margin: -20px -16px 20px -16px;
+    }
+
+    .sticky-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .quiz-name-small {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .quiz-status-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-size: 0.92rem;
+    }
+
+    .timer-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-subtle);
+      border: 1.5px solid var(--border-light);
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+      transition: all 0.25s ease;
+    }
+
+    .timer-box.warn-10 {
+      background-color: var(--accent-light);
+      border-color: var(--accent);
+      color: #C05621;
+    }
+
+    .timer-box.warn-5 {
+      background-color: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .timer-box.warn-1 {
+      background-color: var(--danger);
+      border-color: #9B1C1C;
+      color: #FFFFFF;
+      animation: pulseAlert 1s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background-color: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.25s ease;
+      border-radius: 999px;
+    }
+
+    /* Question Card */
+    .question-card {
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 10px;
+    }
+
+    .q-number-badge {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 5px 14px;
+      border-radius: var(--radius-sm);
+    }
+
+    .q-answered-tag {
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .q-answered-tag.done {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .q-answered-tag.pending {
+      background-color: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1.65;
+      margin-bottom: 24px;
+      word-break: break-word;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      width: 100%;
+      text-align: left;
+      background-color: #FFFFFF;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 15px 18px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      line-height: 1.55;
+      touch-action: manipulation;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary-border);
+      background-color: #F8FAFC;
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+      box-shadow: 0 2px 8px rgba(29, 91, 214, 0.12);
+    }
+
+    .option-prefix {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      transition: all 0.15s ease;
+    }
+
+    .option-btn.selected .option-prefix {
+      background-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .option-content {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    /* Navigation Controls */
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      flex-wrap: wrap;
+    }
+
+    .nav-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Navigator Grid */
+    .nav-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .nav-panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .nav-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .legend-dot.unanswered {
+      background-color: #E2E8F0;
+      border: 1px solid #CBD5E1;
+    }
+
+    .legend-dot.answered {
+      background-color: var(--primary);
+    }
+
+    .legend-dot.current {
+      background-color: #FFFFFF;
+      border: 2.5px solid var(--accent);
+    }
+
+    .nav-stats-row {
+      display: flex;
+      gap: 16px;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-stats-row strong {
+      color: var(--text-main);
+    }
+
+    .q-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 8px;
+    }
+
+    .q-num-btn {
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid #CBD5E1;
+      background-color: #F1F5F9;
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+    }
+
+    .q-num-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .q-num-btn.answered {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .q-num-btn.current {
+      box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 5px var(--accent);
+      z-index: 1;
+    }
+
+    /* ================= MODAL ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      padding: 26px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      animation: modalPop 0.18s ease-out;
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 10px;
+    }
+
+    .modal-body {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .modal-warn-text {
+      display: block;
+      margin-top: 10px;
+      padding: 10px 12px;
+      background-color: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      color: #9C4221;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* ================= RESULT VIEW ================= */
+    .result-hero {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 24px;
+    }
+
+    .result-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 16px;
+    }
+
+    .score-ring-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 12px auto 18px;
+    }
+
+    .score-ring {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0%, #E2E8F0 0%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(29, 91, 214, 0.15);
+    }
+
+    .score-ring-inner {
+      width: 136px;
+      height: 136px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-main-num {
+      font-size: 2.15rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .score-max-num {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .encourage-banner {
+      max-width: 680px;
+      margin: 0 auto;
+      background-color: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      color: #1E3A8A;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 1.02rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background-color: var(--bg-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid var(--border-light);
+    }
+
+    .stat-card.correct {
+      background-color: var(--success-light);
+      border-color: var(--success-border);
+    }
+
+    .stat-card.wrong {
+      background-color: var(--danger-light);
+      border-color: var(--danger-border);
+    }
+
+    .stat-card.unanswered {
+      background-color: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .stat-num {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-card.correct .stat-num { color: var(--success); }
+    .stat-card.wrong .stat-num { color: var(--danger); }
+    .stat-card.unanswered .stat-num { color: var(--text-muted); }
+
+    .result-actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    /* Review Section */
+    .review-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .review-section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .count-badge {
+      font-size: 0.9rem;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .count-badge.wrong {
+      background-color: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .count-badge.unanswered {
+      background-color: #E2E8F0;
+      color: var(--text-secondary);
+    }
+
+    .review-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .perfect-msg {
+      background-color: var(--success-light);
+      border: 1px solid var(--success-border);
+      color: var(--success);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.08rem;
+    }
+
+    .review-item {
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      overflow: hidden;
+      background-color: #FFFFFF;
+    }
+
+    .review-item.wrong-item {
+      border-left: 5px solid var(--danger);
+    }
+
+    .review-item.unanswered-item {
+      border-left: 5px solid #94A3B8;
+    }
+
+    .review-item-header {
+      padding: 16px 18px;
+      background-color: #FAFBFC;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+    }
+
+    .review-item-header:hover {
+      background-color: #F1F5F9;
+    }
+
+    .review-q-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #0F172A;
+      line-height: 1.5;
+    }
+
+    .review-q-tag {
+      display: inline-block;
+      font-weight: 800;
+      color: var(--primary);
+      margin-right: 6px;
+    }
+
+    .toggle-icon {
+      flex-shrink: 0;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .review-item-body {
+      padding: 18px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .review-options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .review-opt {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      font-size: 0.96rem;
+      background-color: #FFFFFF;
+    }
+
+    .review-opt.opt-correct {
+      background-color: var(--success-light);
+      border-color: var(--success-border);
+      color: #14532D;
+      font-weight: 700;
+    }
+
+    .review-opt.opt-wrong {
+      background-color: var(--danger-light);
+      border-color: var(--danger-border);
+      color: #7F1D1D;
+      font-weight: 700;
+    }
+
+    .answer-compare {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: 0.96rem;
+    }
+
+    .ans-row {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+    }
+
+    .ans-row.user-wrong {
+      background-color: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .ans-row.correct-ans {
+      background-color: var(--success-light);
+      color: var(--success);
+    }
+
+    .explanation-box {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 0.96rem;
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    .explanation-box strong {
+      color: var(--primary);
+    }
+
+    .back-top-row {
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 14px 12px 36px;
+      }
+
+      .card {
+        padding: 20px 16px;
+      }
+
+      .home-title {
+        font-size: 1.5rem;
+      }
+
+      .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .rules-list {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-header {
+        margin: -14px -12px 16px -12px;
+        padding: 10px 12px;
+      }
+
+      .timer-box {
+        font-size: 1.1rem;
+        padding: 6px 12px;
+      }
+
+      .question-text {
+        font-size: 1.12rem;
+      }
+
+      .option-btn {
+        padding: 13px 14px;
+        font-size: 0.98rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .q-grid {
+        grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container" id="appTop">
+
+    <!-- ==================== 1. 首頁畫面 ==================== -->
+    <section id="homeView" class="card">
+      <div class="home-header">
+        <span class="badge-tag">線上模擬隨堂測驗</span>
+        <h1 class="home-title">生成式 AI 認證模擬測驗：生成式 AI 基礎知識</h1>
+        <p class="home-subtitle">題庫共收錄 96 題精選試題，每次隨機抽選 80 題進行完整模擬評量</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-label">測驗題數</div>
+          <div class="info-value" id="homeTotalQ">80 題</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">測驗時間</div>
+          <div class="info-value">90 分鐘</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">每題分數</div>
+          <div class="info-value">2.5 分</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">測驗滿分</div>
+          <div class="info-value" id="homeMaxScore">200 分</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">計分方式</div>
+          <div class="info-value highlight-orange">答錯不倒扣</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">學習回饋</div>
+          <div class="info-value">交卷看解析</div>
+        </div>
+      </div>
+
+      <div class="rules-box">
+        <div class="rules-title">📋 作答說明與測驗規則</div>
+        <ul class="rules-list">
+          <li>每次測驗從題庫中隨機抽出 80 題，題目與選項順序皆隨機排列。</li>
+          <li>每題均為單選題，只能選擇一個答案，交卷前可隨時修改。</li>
+          <li>答對一題得 2.5 分，答錯不倒扣，未作答以 0 分計算。</li>
+          <li>測驗進行期間不會顯示正確答案與解析，以維持評量公平性。</li>
+          <li>測驗時間為 90 分鐘，倒數結束時系統將立即自動交卷。</li>
+          <li>交卷後可立即查看總成績、答對率與完整錯題教學解析。</li>
+        </ul>
+      </div>
+
+      <div class="start-action">
+        <button type="button" class="btn btn-primary btn-lg" id="btnStartQuiz">開始作答</button>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 正式測驗畫面 ==================== -->
+    <section id="quizView" class="hidden">
+      <!-- 固定上方資訊與計時器 -->
+      <div class="sticky-header">
+        <div class="sticky-inner">
+          <div class="top-bar">
+            <div class="quiz-meta">
+              <div class="quiz-name-small">生成式 AI 基礎知識模擬測驗</div>
+              <div class="quiz-status-text">
+                <span id="headerCurrentQ">第 1 題 / 80 題</span>
+                <span class="status-pill" id="headerAnsweredCount">已完成 0 / 80 題</span>
+              </div>
+            </div>
+            <div class="timer-box" id="timerBox" aria-live="polite">
+              <span>⏱ 剩餘時間</span>
+              <span id="timerDisplay">90:00</span>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="topProgressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 題目卡片 -->
+      <div class="card question-card">
+        <div class="question-header">
+          <span class="q-number-badge" id="qBadge">第 1 題</span>
+          <span class="q-answered-tag pending" id="qStatusTag">尚未作答</span>
+        </div>
+
+        <div class="question-text" id="questionText">題目載入中...</div>
+
+        <div class="options-list" id="optionsContainer"></div>
+
+        <div class="nav-controls">
+          <div class="nav-group">
+            <button type="button" class="btn btn-outline" id="btnPrevQ">← 上一題</button>
+            <button type="button" class="btn btn-outline" id="btnNextQ">下一題 →</button>
+          </div>
+          <button type="button" class="btn btn-accent" id="btnSubmitEarly">提前交卷</button>
+        </div>
+      </div>
+
+      <!-- 題號導覽與進度區 -->
+      <div class="card">
+        <div class="nav-panel-header">
+          <div class="nav-panel-title">題號導覽與作答進度</div>
+          <div class="nav-legend">
+            <span class="legend-item"><span class="legend-dot unanswered"></span>尚未作答</span>
+            <span class="legend-item"><span class="legend-dot answered"></span>已作答</span>
+            <span class="legend-item"><span class="legend-dot current"></span>目前題目</span>
+          </div>
+        </div>
+        <div class="nav-stats-row">
+          <span>已作答：<strong id="navAnswered">0</strong> 題</span>
+          <span>未作答：<strong id="navUnanswered">80</strong> 題</span>
+          <span>作答進度：<strong id="navPercent">0%</strong></span>
+        </div>
+        <div class="q-grid" id="questionNavGrid"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 成績結算畫面 ==================== -->
+    <section id="resultView" class="hidden">
+      <div class="card">
+        <div class="result-hero">
+          <h2 class="result-title">🎉 測驗完成</h2>
+          <div class="score-ring-wrapper">
+            <div class="score-ring" id="scoreRing">
+              <div class="score-ring-inner">
+                <div class="score-main-num" id="resScore">0</div>
+                <div class="score-max-num" id="resMaxScore">/ 200 分</div>
+              </div>
+            </div>
+          </div>
+          <div class="encourage-banner" id="resEncourage">成績計算中...</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card correct">
+            <div class="stat-label">答對題數</div>
+            <div class="stat-num" id="resCorrect">0 題</div>
+          </div>
+          <div class="stat-card wrong">
+            <div class="stat-label">答錯題數</div>
+            <div class="stat-num" id="resWrong">0 題</div>
+          </div>
+          <div class="stat-card unanswered">
+            <div class="stat-label">未作答題數</div>
+            <div class="stat-num" id="resUnanswered">0 題</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">作答正確率</div>
+            <div class="stat-num" id="resAccuracy">0%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">實際作答時間</div>
+            <div class="stat-num" id="resDuration">00分00秒</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">本次測驗題數</div>
+            <div class="stat-num" id="resTotalQ">80 題</div>
+          </div>
+        </div>
+
+        <div class="result-actions-bar">
+          <button type="button" class="btn btn-outline" id="btnScrollWrong">查看錯題解析</button>
+          <button type="button" class="btn btn-outline hidden" id="btnScrollUnanswered">查看未作答題目</button>
+          <button type="button" class="btn btn-primary" id="btnRestartQuiz">重新測驗</button>
+          <button type="button" class="btn btn-outline" id="btnBackHome">返回測驗首頁</button>
+        </div>
+      </div>
+
+      <!-- 錯題整理區塊 -->
+      <div class="card" id="wrongSectionCard">
+        <div class="review-toolbar">
+          <div class="review-section-title">
+            <span>❌ 錯題整理與解析</span>
+            <span class="count-badge wrong" id="wrongBadgeCount">0 題</span>
+          </div>
+          <div class="review-controls" id="wrongToolbarBtns">
+            <button type="button" class="btn btn-outline btn-sm" onclick="toggleAllReview('wrongListContainer', true)">全部展開</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="toggleAllReview('wrongListContainer', false)">全部收合</button>
+          </div>
+        </div>
+        <div id="wrongListContainer"></div>
+        <div class="back-top-row">
+          <button type="button" class="btn btn-outline btn-sm" onclick="scrollToSummary()">↑ 返回成績摘要</button>
+        </div>
+      </div>
+
+      <!-- 未作答題目區塊 -->
+      <div class="card hidden" id="unansweredSectionCard">
+        <div class="review-toolbar">
+          <div class="review-section-title">
+            <span>⚪ 未作答題目解析</span>
+            <span class="count-badge unanswered" id="unansweredBadgeCount">0 題</span>
+          </div>
+          <div class="review-controls">
+            <button type="button" class="btn btn-outline btn-sm" onclick="toggleAllReview('unansweredListContainer', true)">全部展開</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="toggleAllReview('unansweredListContainer', false)">全部收合</button>
+          </div>
+        </div>
+        <div id="unansweredListContainer"></div>
+        <div class="back-top-row">
+          <button type="button" class="btn btn-outline btn-sm" onclick="scrollToSummary()">↑ 返回成績摘要</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 交卷確認視窗 -->
+  <div class="modal-backdrop hidden" id="confirmModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-title">確認交卷</div>
+      <div class="modal-body">
+        確定要交卷嗎？交卷後將無法修改答案。
+        <span class="modal-warn-text hidden" id="modalUnansweredWarn"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="btnCancelSubmit">繼續作答</button>
+        <button type="button" class="btn btn-accent" id="btnConfirmSubmit">確定交卷</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 完整題庫資料（共 96 題）
+    const QUESTION_BANK = [{"id": 1, "question": "生成式 AI 的主要特點為何？", "options": ["生成式 AI 無法生成新的內容，只能回答特定問題", "生成式 AI 可以理解和生成自然語言，並能創造出新的內容", "生成式 AI 只能在特定領域中工作，無法跨領域生成內容", "生成式 AI 無法理解影像或視覺內容"], "answer": 1, "explanation": "生成式AI的核心能力在於理解並生成自然語言，且能根據學習到的模式創造全新的文字、圖像或影音內容，而非僅限於特定領域或固定問答。"}, {"id": 2, "question": "下列何者是生成式 AI 的特色？", "options": ["無法客製化", "多領域應用", "不斷退步", "無法提供創意和靈感"], "answer": 1, "explanation": "生成式AI具備高度靈活性與跨領域應用特色，能根據不同提示詞客製化產出文案、圖像與程式碼，為使用者提供豐富的創意與靈感。"}, {"id": 3, "question": "AI 生成內容 (AIGC) 的輸出是基於什麼原理生成？", "options": ["邏輯模型", "迴歸模型", "分類模型", "深度學習模型"], "answer": 3, "explanation": "AIGC主要基於深度學習模型（如Transformer、GAN、擴散模型），透過龐大參數與多層神經網路從海量資料中學習分布並生成新內容。"}, {"id": 4, "question": "何謂 AI 生成內容 (AIGC)？", "options": ["一種利用人工智慧技術生成文字、圖片或音訊的過程", "一種用於分析大數據的技術", "一種用於機器學習的演算法", "一種用於擴增實境 (AR) 的工具"], "answer": 0, "explanation": "AIGC（AI Generated Content）即人工智慧生成內容，指利用AI技術自動產出文字、圖片、音訊或影片等數位內容的過程。"}, {"id": 5, "question": "何者是 PGC(Professionally generated content) 與 AI 生成內容 (AIGC) 的關鍵區別？", "options": ["PGC 由專業人士創作，AIGC 由 AI 模型生成", "PGC 內容品質更高，AIGC 內容品質更低", "PGC 成本更高，AIGC 成本更低", "PGC 適用於所有領域，AIGC 適用於特定領域"], "answer": 0, "explanation": "PGC是由專業人員或團隊人工創作的內容，而AIGC則是透過人工智慧模型自動生成內容，兩者最根本的差異在於內容創作的主體不同。"}, {"id": 6, "question": "以下哪項技術被認為是改進 AI 生成內容 (AIGC) 真實性和可信度的重要方法？", "options": ["卷積神經網路", "自迴歸模型", "生成式對抗網路", "強化學習"], "answer": 2, "explanation": "生成式對抗網路（GAN）透過生成器與鑑別器的相互對抗與博弈訓練，不斷逼近真實資料分布，是提升AIGC真實性與可信度的重要技術。"}, {"id": 7, "question": "目前 AI 生成內容 (AIGC) 在內容創作中的一個重要趨勢是什麼？", "options": ["自動化生成", "手動編輯", "印刷出版", "手寫文字"], "answer": 0, "explanation": "目前AIGC在內容創作領域最重要的趨勢是「自動化生成」，大幅降低創作門檻並提升產出效率，改變傳統依賴人工編輯的製作流程。"}, {"id": 8, "question": "AI 生成內容 (AIGC) 研發投資不斷成長的關鍵驅動因素是什麼？", "options": ["AIGC 模型的複雜性和能力不斷提高", "AIGC 應用程式擴展到產品開發和客戶體驗等新領域", "個人和企業越來越容易獲得 AIGC 工具和資源", "全球政府和組織廣泛採用 AIGC"], "answer": 3, "explanation": "全球政府機構與各產業組織廣泛導入並採用AIGC，帶來龐大的商業與公共應用需求，成為推動AIGC研發投資持續成長的關鍵驅動力。"}, {"id": 9, "question": "下列哪段描述最符合生成式 AI 的發展趨勢？", "options": ["生成式 AI 的內容生成能力將不斷提升", "生成式 AI 的應用將限於特定領域", "生成式 AI 模型將變得更加複雜和難以使用", "生成式 AI 的道德和倫理問題將不受到重視"], "answer": 0, "explanation": "隨著演算法突破與算力提升，生成式AI的內容生成能力與精準度將持續提升，並逐步拓展至各行各業，而非侷限於單一特定領域。"}, {"id": 10, "question": "生成式 AI 可應用於哪些領域？", "options": ["客服機器人", "撰寫文案", "設計圖像", "以上皆是"], "answer": 3, "explanation": "生成式AI具備多模態與跨領域應用能力，無論是智慧客服機器人、行銷文案撰寫或視覺圖像設計皆能勝任，因此以上皆為正確應用。"}, {"id": 11, "question": "現階段 AI 是以發展通用大模型為主，未來的趨勢為何？", "options": ["通用中模型", "通用小模型", "垂直專用模型", "專用大模型"], "answer": 2, "explanation": "現階段通用大模型雖強大但成本高，未來趨勢將朝向結合產業知識、更精準且具成本效益的「垂直專用模型」發展，以解決特定領域問題。"}, {"id": 12, "question": "以下關於生成式 AI 的發展何者為非？", "options": ["逐漸從文本轉向語音應用", "僅用在垂直產業領域", "內容不全然可信", "可提高軟體開發效能"], "answer": 1, "explanation": "生成式AI具有極佳的泛用性與跨領域應用潛力，能廣泛應用於教育、醫療、金融、娛樂等多元產業，並非「僅用在垂直產業領域」。"}, {"id": 13, "question": "企業根據自身的業務需求發展客製化 AI，以下何者正確？", "options": ["客製化 AI 能根據特定業務情境和需求進行調整和優化，提供更有效的解決方案", "客製化讓 AI 更貼近企業的商業模式和策略，提高業務效率和準確性", "客製化 AI 可以更好地保護用戶隱私，因為數據不會分享給第三方", "以上皆是"], "answer": 3, "explanation": "企業發展客製化AI不僅能貼合自身商業模式、針對特定情境優化效率，還能在私有環境部署以保障敏感數據不外洩，因此以上皆是。"}, {"id": 14, "question": "BYOG 的概念，可以比擬為電腦 PC 發展的哪一個階段？", "options": ["個人電腦時代", "資訊應用時代", "大型主機時代", "資訊儲存時代"], "answer": 1, "explanation": "BYOG（Build Your Own GPT）讓一般使用者與企業能輕鬆打造專屬AI工具，如同電腦從大型主機走向普及化與客製化的「資訊應用時代」。"}, {"id": 15, "question": "BYOG 工具在 AIGC 領域中主要用於什麼？", "options": ["圖像生成", "自然語言處理", "音頻合成", "資料分析"], "answer": 3, "explanation": "在AIGC領域中，BYOG（建立專屬GPT）工具常結合資料上傳與檢索功能，協助企業與個人進行特定知識庫的「資料分析」與問答。"}, {"id": 16, "question": "開發基於 LLM 的應用時，最重要的考慮因素是什麼？", "options": ["用戶界面設計", "數據隱私和安全", "擴展性和模組化", "跨平台兼容性"], "answer": 1, "explanation": "企業與開發者在建立基於LLM的應用時，常涉及機密文件與用戶個資，因此「數據隱私和安全」是最首要且關鍵的考量因素。"}, {"id": 17, "question": "在生成式 AI 中，循環神經網路 (RNN) 常用於處理什麼類型的資料？", "options": ["圖片", "影片", "數值", "文字"], "answer": 3, "explanation": "循環神經網路（RNN）具備記憶序列前後文脈絡的特性，非常適合處理具有時間或順序關聯的資料，如「文字」語句與語音訊號。"}, {"id": 18, "question": "生成式 AI 與傳統人工智慧最大的差異是什麼？", "options": ["傳統AI依賴網路連線", "生成式AI能創造新內容", "傳統AI能分析舊資料", "生成式AI僅用於搜尋"], "answer": 1, "explanation": "傳統AI多專注於資料分類、預測或辨識既有資訊；生成式AI最大的突破在於能從學習到的規律中「創造出全新的內容」。"}, {"id": 19, "question": "在 AI 生成內容 (AIGC) 領域，BERT 是一種什麼類型的模型？", "options": ["迴歸模型", "圖片模型", "語言模型", "分類模型"], "answer": 2, "explanation": "BERT是由Google提出的雙向Transformer預訓練「語言模型」，擅長理解上下文語意，廣泛應用於自然語言理解與文本分類任務。"}, {"id": 20, "question": "在生成式 AI 中，微調 (Fine-tuning) 是指什麼？", "options": ["對模型進行微調以適應特定任務或資料集", "使用預訓練模型進行推理", "將生成器網路和鑑別器網路連接起來", "在訓練期間動態調整學習率"], "answer": 0, "explanation": "微調（Fine-tuning）是指在已訓練好的預訓練模型基礎上，使用特定領域或任務的資料集進行額外訓練，使其更適應專屬應用場景。"}, {"id": 21, "question": "多模態模型 (LMM) 通常是基於哪些技術開發的？", "options": ["深度學習 (DL) 和大型神經網路", "遺傳演算法 (GA) 和模糊邏輯", "支援向量機 (SVM) 和決策樹 (Decision Tree)", "循環神經網路 (RNN) 和進化演算法"], "answer": 0, "explanation": "大型多模態模型（LMM）能同時處理文字、圖像與音訊，其核心架構主要是基於「深度學習（DL）和大型神經網路」技術開發而成。"}, {"id": 22, "question": "為何生成式 AI 能「創造」新內容？", "options": ["因為能模仿人類情緒", "因為能從資料中學習模式", "因為能連結外部資料庫", "因為能即時更新資訊"], "answer": 1, "explanation": "生成式AI並非憑空想像，而是透過深度學習演算法從海量訓練資料中「學習內在的統計模式與結構」，進而推演並創造出新內容。"}, {"id": 23, "question": "以下哪一種訓練方式使用未標記資料？", "options": ["監督式學習", "非監督式學習", "半監督式學習", "強化學習"], "answer": 1, "explanation": "非監督式學習直接從「未經人工標記」的原始資料中自動尋找隱藏結構、特徵與分布規律，常用於資料分群與生成式模型訓練。"}, {"id": 24, "question": "下列哪一項最能說明「資料品質」影響生成式AI表現？", "options": ["訓練資料不會過時", "模型越大結果越準確", "資料多寡無關準確度", "錯誤資料會導致錯誤輸出"], "answer": 3, "explanation": "AI模型高度依賴訓練數據，俗稱「垃圾進、垃圾出（Garbage In, Garbage Out）」，若訓練資料包含錯誤或偏見，將直接導致模型產出錯誤輸出。"}, {"id": 25, "question": "請問在生成式對抗網路 (GAN) 中，鑑別器 (Discriminator) 的主要功能為下列何者？", "options": ["生成新的資料", "訓練鑑別器", "儲存樣本資料", "判斷資料的真偽"], "answer": 3, "explanation": "在GAN架構中，生成器負責偽造新資料，而「鑑別器（Discriminator）」則扮演鑑定師的角色，負責評估並「判斷輸入資料的真偽」。"}, {"id": 26, "question": "哪種自主學習方法利用 AI 生成內容 (AIGC) 技術來自動生成個人化學習計劃？", "options": ["傳統教學法", "標準化測試", "訓練營", "自適應學習系統"], "answer": 3, "explanation": "自適應學習系統結合AIGC技術，能即時分析學生的學習進度、強弱項與習慣，動態調整難度並自動生成個人化的專屬學習計劃。"}, {"id": 27, "question": "哪一種 AI 生成內容 (AIGC) 工具可以用來自動生成測驗和練習題來評估學生的學習進度？", "options": ["音樂播放器", "語音辨識軟體", "自動測驗生成器", "社群媒體平臺"], "answer": 2, "explanation": "自動測驗生成器能利用AIGC快速根據教材重點自動產出多樣化的測驗題與練習卷，有效協助教師評估學生的學習成效。"}, {"id": 28, "question": "哪一種 AI 生成內容 (AIGC) 技術被用來創造自動化的教育影片和講座？", "options": ["圖片編輯技術", "語音合成技術", "資料壓縮技術", "雲端計算技術"], "answer": 1, "explanation": "語音合成技術（TTS）結合AIGC能將教案講稿自動轉換為自然流暢的真人語音旁白，大幅加速自動化教育影片與線上講座的製作。"}, {"id": 29, "question": "以下哪個選項不是利用 GitHub 進行 AI 生成內容 (AIGC) 技能學習和貢獻的方式？", "options": ["購買 GitHub 付費服務", "學習開源程式碼", "發表技術文章", "貢獻開源程式"], "answer": 0, "explanation": "GitHub是開源程式碼託管與協作平台，使用者透過學習開源專案、發表技術文件與貢獻程式碼來精進AIGC技能，而非單純購買付費服務。"}, {"id": 30, "question": "Kaggle 是一個資料科學社區平臺，使用者可以參與各種機器學習比賽並獲得獎勵。以下哪個選項不屬於利用 Kaggle 進行 AI 生成內容 (AIGC) 技能學習和實踐的方式？", "options": ["參加公開競賽項目", "免費訂閱優惠會員", "學習優秀的解決方案", "在論壇交流切磋"], "answer": 1, "explanation": "Kaggle透過舉辦公開機器學習競賽、分享優秀解決方案與技術論壇交流來促進學習，平台本身並無「免費訂閱優惠會員」的機制。"}, {"id": 31, "question": "下列哪一點不是生成式AI在支援適性差異化學習方法的好處？", "options": ["提高學習興趣", "能設計個人化教學", "完全取代老師", "分析學習習慣和能力"], "answer": 2, "explanation": "生成式AI能設計個人化教材、分析學習習慣並提升學習動機，但它是教師的輔助工具，無法具備同理心與引導力，不能「完全取代老師」。"}, {"id": 32, "question": "AI 工具可以協助哪方面的自主學習管理呢？", "options": ["時間管理", "知識管理", "任務和專案管理", "以上皆是"], "answer": 3, "explanation": "AI工具可協助自動化排程（時間管理）、整理筆記摘要（知識管理）以及拆解執行步驟（任務和專案管理），全面提升自主學習效率。"}, {"id": 33, "question": "AI 時間管理工具無法協助達成以下哪個功能呢？", "options": ["自動安排和調整日程，以最佳化時間利用", "分析工作效率並提供改進建議", "提醒用戶即將到來的會議和截止日期", "完全替代人類的決策過程，根據個人喜好自動完成所有任務"], "answer": 3, "explanation": "AI時間管理工具能協助優化日程、分析效率與提醒待辦事項，但最終的價值判斷與重要決策仍須由人類主導，無法「完全替代人類決策」。"}, {"id": 34, "question": "以下哪一項是 Zapier 無法實現的功能？", "options": ["在 Gmail 收到新郵件時，自動將附件保存到 Google Drive", "在 Trello 中創建新卡片時，自動在 Slack 中發送通知", "根據複雜的上下文完全理解和解釋電子郵件內容", "在 Google Sheets 中添加新行程時，自動在 Salesforce 中建立新聯絡人"], "answer": 2, "explanation": "Zapier是自動化工作流串接工具，擅長依據預設條件觸發跨軟體動作（如存附件、發通知），但本身不具備深度語意理解與解釋複雜上下文的能力。"}, {"id": 35, "question": "生成式 AI 運作的核心依賴什麼過程？", "options": ["隨機選取資料內容", "即時擷取網路資訊", "預測下一步文字或圖像", "收集使用者的偏好"], "answer": 2, "explanation": "大型語言模型與生成式AI運作的核心原理，是根據上下文機率分布來「預測下一個最可能出現的文字（Token）或圖像像素」。"}, {"id": 36, "question": "AI 產生看似合理但錯誤的內容稱為？", "options": ["偏差（Bias）", "幻覺（Hallucination）", "模糊化（Obfuscation）", "擬態（Mimicry）"], "answer": 1, "explanation": "AI幻覺（Hallucination）是指生成式AI因為機率預測機制，一本正經地編造出「看似語句通順合理、實則與事實不符」的錯誤內容。"}, {"id": 37, "question": "為什麼資料多樣性對生成式AI很重要？", "options": ["可增加模型參數數量", "可減少訓練成本", "可避免模型產生偏見", "可加快資料清理速度"], "answer": 2, "explanation": "若訓練資料缺乏多樣性，模型容易產生刻板印象或單一立場；豐富多元的資料能幫助模型學習全面觀點，有效「避免模型產生偏見」。"}, {"id": 38, "question": "哪項技術被認為是提升AI生成內容真實性和可信度的關鍵方法？", "options": ["卷積神經網路", "自迴歸模型", "生成式對抗網路", "強化學習"], "answer": 2, "explanation": "生成式對抗網路（GAN）透過生成器與鑑別器的持續對抗訓練，迫使生成結果不斷逼近真實樣本，是提升AIGC真實性與可信度的關鍵方法。"}, {"id": 39, "question": "請問生成式AI技術的核心原理為下何者？", "options": ["監督式學習 (Supervised learning)", "非監督式學習 (Un-supervised learning)", "強化學習 (Reinforcement learning,RL)", "生成式對抗網路 (Generative Adversarial Network,GAN)"], "answer": 3, "explanation": "在常見的機器學習分類中，生成式對抗網路（GAN）是專為創造新資料而設計的核心生成式AI技術，不同於傳統僅做分類預測的學習方式。"}, {"id": 40, "question": "請問下列何者可能是生成式AI訓練過程中會面臨的較大挑戰？", "options": ["過度擬合 (Overfitting)", "缺乏高品質標記資料", "過度簡化模型", "運算效率低下"], "answer": 1, "explanation": "生成式AI模型參數龐大，需要海量且高品質的資料進行訓練；在實務上，「缺乏高品質標記資料」往往是訓練過程中最常面臨的重大挑戰。"}, {"id": 41, "question": "GPT (Generative Pre-trained Transformer) 中使用的是哪種類型的注意力機制？", "options": ["卷積注意力機制", "多頭注意力機制", "自我注意力機制", "循環注意力機制"], "answer": 1, "explanation": "GPT採用Transformer架構中的「多頭注意力機制（Multi-Head Attention）」，能同時從多個不同子空間捕捉文字間的語意關聯。"}, {"id": 42, "question": "請問生成式AI的訓練過程中主要著重於下列何者？", "options": ["模型的精確度", "資料的多樣性", "運算效率", "學習速度"], "answer": 1, "explanation": "生成式AI若要產出豐富、泛化能力強且不偏頗的內容，訓練過程中必須特別著重「資料的多樣性」，以涵蓋各種語境與知識領域。"}, {"id": 43, "question": "大語言模型(Large Language Model,LLM)的特點是什麼？", "options": ["使用最少的參數", "可以處理多媒體資料", "參數數量龐大", "可以執行所有任務"], "answer": 2, "explanation": "大語言模型（LLM）之所以具備強大的語言理解與推理能力，關鍵特徵在於其擁有數十億甚至數千億級別的「龐大參數數量」。"}, {"id": 44, "question": "「變換器 (Transformer)」在生成式AI中的作用是什麼？", "options": ["提高資料處理速度", "擴展模型的參數", "導入注意力機制", "生成更加真實的圖片"], "answer": 2, "explanation": "Transformer架構最核心的突破在於「導入注意力機制（Attention Mechanism）」，使模型能平行處理長距離文本並精準捕捉上下文關聯。"}, {"id": 45, "question": "在AI生成內容中，資料應如何訓練較好？", "options": ["資料量越多越好", "資料量越少越好", "資料量適中較好", "資料量多寡不影響訓練品質"], "answer": 0, "explanation": "在符合資料品質與多樣性的前提下，深度學習模型通常遵循縮放定律（Scaling Laws），「資料量越多」越能讓模型充分學習規律並提升表現。"}, {"id": 46, "question": "AI生成內容最早的應用是在哪個產業？", "options": ["醫療保健", "娛樂和影視業", "農業和食品生產", "建築和工程"], "answer": 1, "explanation": "AI生成內容最早在「娛樂和影視業」獲得廣泛應用，例如電影特效合成、遊戲角色場景生成、虛擬偶像與音樂創作等領域。"}, {"id": 47, "question": "下列哪一項不是生成式AI的應用領域？", "options": ["行銷電子郵件", "程式碼生成", "資料庫管理", "數位藝術創作"], "answer": 2, "explanation": "生成式AI擅長行銷文案、程式碼與數位藝術等內容創作；而「資料庫管理」著重於資料結構化儲存、查詢與完整性維護，非生成式AI主要應用。"}, {"id": 48, "question": "農業可運用AI生成內容技術生成生長模型，預測作物生長過程和收獲時間，幫助農民規劃種植計畫，下列何者為此模型最主要的技術？", "options": ["自然語言處理 (Natural Language Processing, NLP)", "機器學習 (Machine Learning, ML)", "資料檢索 (Information Retrieval)", "虛擬實境 (Virtual Reality,VR)"], "answer": 1, "explanation": "透過歷史氣候、土壤與作物數據建立生長預測模型，主要是運用「機器學習（Machine Learning）」從數據中學習規律並進行推估。"}, {"id": 49, "question": "生成式對抗網路(Generative Adversarial Network, GAN)的主要應用領域為何？", "options": ["即時、高精度的操作控制或決策分析", "圖片生成", "預測分析", "資料庫管理"], "answer": 1, "explanation": "生成式對抗網路（GAN）能生成極度逼真的視覺影像，因此在「圖片生成」、人臉合成、圖像超解析度與風格轉換領域應用最為廣泛。"}, {"id": 50, "question": "在AI生成內容領域，BERT (Bidirectional Encoder Representations from Transformers) 是一種什麼類型的模型？", "options": ["迴歸模型", "生成模型", "分類模型", "語言模型"], "answer": 3, "explanation": "BERT（Bidirectional Encoder Representations from Transformers）是一種基於Transformer編碼器的預訓練「語言模型」。"}, {"id": 51, "question": "請問在生成式AI的推理過程中，主要考慮的因素為下列何者？", "options": ["模型的複雜度", "演算法的穩定性", "資料的可靠性", "資源的使用效率"], "answer": 2, "explanation": "在生成式AI實際部署與推理（Inference）應用時，確保輸出結果基於可信來源、減少錯誤資訊，即「資料的可靠性」是最重要的考量因素。"}, {"id": 52, "question": "語言模型的作用是什麼？", "options": ["預測未來事件", "理解和使用人類語言", "模擬人類行為", "生成圖片"], "answer": 1, "explanation": "語言模型（Language Model）的核心作用是透過學習詞彙與語法機率分布，讓電腦能夠「理解和使用人類語言」，進行對話、翻譯或摘要。"}, {"id": 53, "question": "請問在生成式對抗網路(Generative Adversarial Network, GAN)中，生成器 (Generator) 的主要功能為下列何者？", "options": ["分類真偽資料", "生成逼真的新資料", "訓練鑑別器", "儲存樣本資料"], "answer": 1, "explanation": "在GAN的雙網路架構中，「生成器（Generator）」負責接收隨機雜訊並學習真實資料分布，其主要功能是「生成逼真的新資料」以騙過鑑別器。"}, {"id": 54, "question": "關於生成式AI的技術基本原理，下列何者較正確？", "options": ["模仿人類思維過程", "從大量資料中學習並生成新的內容", "預測未來事件", "進行高速運算"], "answer": 1, "explanation": "生成式AI的基本技術原理是透過深度神經網路「從大量資料中學習內在模式與特徵，並據此生成全新的內容」，而非真正具備人類思維。"}, {"id": 55, "question": "AI技術被廣泛應用在城市交通管理中，下列哪一項應用是基於AI技術的？", "options": ["手動交通信號控制", "紅綠燈中控系統", "道路修建計劃", "智慧交通流量監控和調節"], "answer": 3, "explanation": "智慧交通系統利用AI即時分析車流影像與感測器數據，實現「智慧交通流量監控和調節」，動態調整號誌秒數以緩解道路壅塞。"}, {"id": 56, "question": "AI生成內容中的「GAN」是什麼？", "options": ["Generative Artistic Network", "Graphical Analysis Node", "Generative Adversarial Network", "Gradient Activation Node"], "answer": 2, "explanation": "GAN的英文全名為「Generative Adversarial Network」（生成式對抗網路），由生成器與鑑別器兩個相互競爭的神經網路組成。"}, {"id": 57, "question": "AI生成內容技術為醫療領域帶來許多幫助，以下哪一項不是AI帶來的優勢？", "options": ["提高診斷準確性和效率", "自動化醫療記錄的生成和整理", "增加醫生的專業知識和技能", "提供個性化的醫療建議和治療方案"], "answer": 2, "explanation": "AI能輔助醫療影像診斷、自動整理病歷與提供個人化治療建議，但醫生的臨床經驗與「專業知識和技能」仍須透過自身學習與實踐累積。"}, {"id": 58, "question": "下列何者非生成式AI基本核心技術？", "options": ["自然語言處理 (Natural Language Processing, NLP)", "機器學習 (Machine Learning, ML)", "深度學習 (Deep Learning)", "擴增實境 (Augmented Reality, AR)"], "answer": 3, "explanation": "NLP、機器學習與深度學習皆為生成式AI的核心基礎技術；而「擴增實境（AR）」是將虛擬資訊疊加於現實畫面的顯示技術，非生成式AI核心。"}, {"id": 59, "question": "AI生成內容對企業商業模式可提供的服務是什麼？", "options": ["提高辦公室物理安全性", "自動化精準財務審計", "產出市場行銷文案", "減少產品的物理缺陷"], "answer": 2, "explanation": "在企業商業應用中，生成式AI能快速根據產品特色與目標客群「產出市場行銷文案」、廣告標語與社群貼文，大幅提升行銷效率。"}, {"id": 60, "question": "循環神經網路 (Recurrent neural network, RNN) 在生成式AI中的作用為何？", "options": ["處理和生成順序數據，如文本和語音", "增加模型的計算速度", "減少訓練數據的需求", "優化圖像的分辨率"], "answer": 0, "explanation": "循環神經網路（RNN）透過隱藏狀態保留先前的計算記憶，特別適合「處理和生成具有前後順序關聯的數據，如文本和語音」。"}, {"id": 61, "question": "請問不同的大語言模型 (Large Language Model, LLM) 是如何影響AI生成內容技術？", "options": ["提供更多的訓練資料", "提升生成內容的多樣性和品質", "減少運算資源的需求", "加速模型訓練速度"], "answer": 1, "explanation": "不同的大語言模型因架構、參數量與訓練語料差異，能互補長短並帶來不同的語言風格與推理表現，進而「提升生成內容的多樣性和品質」。"}, {"id": 62, "question": "下列何者不是生成式AI在教學、教育領域的應用？", "options": ["促進同儕溝通技巧", "為學生訂定學習課綱", "幫助教師編寫考試題目", "生成互動式教學內容"], "answer": 0, "explanation": "生成式AI可協助教師編寫考題、設計個人化課綱與生成互動教材；但「促進同儕溝通技巧」屬於人際社交與真實互動能力，非AI直接應用。"}, {"id": 63, "question": "請問生成式AI技術使用了下列何種主要技術？", "options": ["支援向量機 (Support Vector Machine, SVM)", "強化學習(Reinforcement learning, RL)", "基因演算法(Genetic Algorithm)", "深度學習神經網路 (Deep Neural Network, DNN)"], "answer": 3, "explanation": "現代生成式AI（如GPT、Diffusion Model）主要是建構在「深度學習神經網路（DNN）」的基礎上，透過多層網路架構學習複雜特徵。"}, {"id": 64, "question": "請問生成式AI的訓練過程，需要大量的什麼？", "options": ["運算資源", "人工監督", "模型選擇", "人工干預"], "answer": 0, "explanation": "由於生成式AI模型參數龐大且訓練資料海量，其訓練過程需要消耗極為龐大的「運算資源」（如高效能GPU叢集與電力）。"}, {"id": 65, "question": "用來自動創建多語言學習資料以促進語言學習的AI生成內容 (AIGC) 工具是什麼？", "options": ["翻譯軟體", "圖片處理軟體", "網頁瀏覽器", "音樂播放器"], "answer": 0, "explanation": "結合AIGC的智慧「翻譯軟體」能自動生成多國語言對照文本、例句與學習素材，有效降低語言隔閡並促進多語言自主學習。"}, {"id": 66, "question": "AI生成內容的應用範圍很廣，以下哪一項是AI生成內容的典型應用？", "options": ["食品加工的品質檢測", "環境保護活動的宣傳文案撰寫", "運動賽事的裁判判決", "金融市場的投資建議"], "answer": 1, "explanation": "撰寫「環境保護活動的宣傳文案」屬於典型的文字內容創作任務，最能發揮AIGC快速生成創意文案的優勢；其餘選項偏重檢測、判決或高風險建議。"}, {"id": 67, "question": "關於ChatGPT，下列描述何者為非？", "options": ["ChatGPT是基於 Transformer模型所訓練的大型語言模型", "ChatGPT可以生成高品質、流暢的自然語言文字", "ChatGPT可以編寫不同類型的程式碼", "ChatGPT可以真正感受或表達情感"], "answer": 3, "explanation": "ChatGPT是基於Transformer架構的大型語言模型，能流暢對話與寫程式，但它僅是依據機率預測文字，並不具備意識，無法「真正感受或表達情感」。"}, {"id": 68, "question": "AI技術可應用於醫學影像解讀，然而並非每種情況都適用，下列哪一個情境不適合使用AI輔助診斷？", "options": ["心電圖解讀", "腫瘤檢測", "急救處置", "醫學影像分類"], "answer": 2, "explanation": "心電圖解讀、腫瘤檢測與影像分類皆可由AI輔助提升判讀效率；但「急救處置」分秒必爭且現場狀況瞬息萬變，必須仰賴醫護人員即時專業判斷與操作。"}, {"id": 69, "question": "在圖片處理中，生成式對抗網路 (Generative Adversarial Network, GAN) 常用於什麼應用？", "options": ["圖片分類", "圖片分割", "圖片生成", "圖片去背"], "answer": 2, "explanation": "生成式對抗網路（GAN）擅長學習影像的紋理與結構分布，因此在圖片處理中最常用於「圖片生成」、畫質修復與影像風格轉換。"}, {"id": 70, "question": "AI運用在法律領域，有助於帶來什麼樣的改變？", "options": ["提升法律服務的效率", "精簡法律文件的數量", "提升法律判決的公正性", "增加執法人員"], "answer": 0, "explanation": "AI應用於法律領域能快速檢索判例、審閱合約條款與草擬法律文書，大幅減輕重複性文書作業，從而「提升法律服務的效率」。"}, {"id": 71, "question": "生成式AI在法律領域的未來發展可能會對律師產生什麼樣的影響？", "options": ["增加律師的工作負擔和壓力", "提高法庭審判的速度和效率", "減少法律教育的需求", "提供法律文書和合約的自動生成"], "answer": 3, "explanation": "生成式AI未來能協助律師「提供法律文書和合約的自動生成」與初步審查，將律師從繁瑣文書中解放，專注於策略分析與法庭辯護。"}, {"id": 72, "question": "生成式AI的應用範圍廣泛，以下哪一項不是其應用範圍？", "options": ["自動寫作", "音樂播放", "圖片生成", "藝術創作"], "answer": 1, "explanation": "生成式AI擅長自動寫作、圖片生成與藝術創作等內容產出；而「音樂播放」僅是單純的媒體播放功能，不涉及內容生成。"}, {"id": 73, "question": "請問在生成式對抗網路 (Generative Adversarial Network, GAN)中，鑑別器 (Discriminator) 的主要功能為下列何者？", "options": ["判斷資料的真偽", "生成新的資料", "訓練鑑別器", "儲存樣本資料"], "answer": 0, "explanation": "在GAN訓練過程中，「鑑別器（Discriminator）」負責比對真實樣本與生成器產出的假樣本，主要功能是「判斷資料的真偽」。"}, {"id": 74, "question": "AI技術可以自動生成教學資源，減輕教師的工作負擔。下列哪項技術可以達到自動生成教學資源？", "options": ["自然語言處理 (Natural Language Processing, NLP)", "虛擬實境 (Virtual Reality, VR)", "擴增時境 (Augmented Reality, AR)", "基因演算法  (Genetic Algorithm)"], "answer": 0, "explanation": "自然語言處理（NLP）讓AI能理解教材文本並自動生成講義摘要、練習題與教學資源，有效減輕教師備課與出題的負擔。"}, {"id": 75, "question": "生成式對抗網路 (Generative Adversarial Network, GAN)的兩個主要組成部分為何？", "options": ["評估器和生成器", "生成器和鑑別器", "辨識器和分類器", "生成器和分類器"], "answer": 1, "explanation": "生成式對抗網路（GAN）由兩個核心網路組成：「生成器（Generator）」負責產生假資料，「鑑別器（Discriminator）」負責辨別真假，兩者相互對抗進步。"}, {"id": 76, "question": "在AI生成內容領域中，「NLP」代表什麼？", "options": ["Networked Language Processing", "Natural Language Processing", "Neural Linguistic Programming", "Nested Learning Protocol"], "answer": 1, "explanation": "在AI與資訊科學領域中，NLP是「Natural Language Processing」（自然語言處理）的縮寫，研究如何讓電腦理解、處理與生成人類語言。"}, {"id": 77, "question": "下列哪個是用於處理自然語言的AI生成內容模型？", "options": ["ResNet(Residual Neural Network)", "ChatGPT-4", "VGG-16", "YOLO(You only live once)"], "answer": 1, "explanation": "ChatGPT-4是專精於自然語言理解與生成的大型語言模型；而ResNet、VGG-16與YOLO皆為電腦視覺（影像辨識與物件偵測）模型。"}, {"id": 78, "question": "AI生成內容的主要功能是什麼？", "options": ["減少資訊數據", "修復舊的資料", "搜集數據資訊", "自動化內容創作"], "answer": 3, "explanation": "AI生成內容（AIGC）最核心的功能即在於「自動化內容創作」，能根據指令自動產出文章、圖像、音訊、影片與程式碼。"}, {"id": 79, "question": "AI生成內容的運作過程中，模型架構的選擇對什麼有影響？", "options": ["影響生成內容的品質及速度", "影響模型的訓練資料", "影響模型的超參數調整", "影響模型的優化器選擇"], "answer": 0, "explanation": "不同的模型架構（如Transformer、RNN、擴散模型）在計算複雜度與特徵捕捉能力上各有差異，直接「影響生成內容的品質及速度」。"}, {"id": 80, "question": "AI技術應用於法律領域時，應避免下列何種情況？", "options": ["機密文件不能使用開放式AI生成", "參考 AI 工具提出的建議", "判決過程透明化", "相信「AI法官」的判決"], "answer": 3, "explanation": "AI工具可能產生幻覺或偏見，且缺乏法律責任能力，因此在法律領域應作為輔助參考，絕不能盲目「相信『AI法官』的判決」而取代人類法官。"}, {"id": 81, "question": "下列何時非金融領域應用生成式AI能獲得的效果？", "options": ["生成個人化分析報告", "更快速進行市場分析與預測", "針對個人需求提供投資研究與建議", "提供無風險但高報酬的投資建議"], "answer": 3, "explanation": "金融市場充滿不確定性，生成式AI可協助市場分析與產出個人化報告，但絕不可能提供「無風險但高報酬」的投資建議，投資必定伴隨風險。"}, {"id": 82, "question": "以下關於生成式AI的發展，哪一項是不正確的？", "options": ["逐漸從文本轉向語音應用", "僅用在垂直產業領域", "內容不全然可信", "可提高軟體開發效能"], "answer": 1, "explanation": "生成式AI具有高度跨領域適用性，能廣泛應用於各行各業與日常工作，因此「僅用在垂直產業領域」的敘述是不正確的。"}, {"id": 83, "question": "關於生成式AI的主要功能，下列何者較正確？", "options": ["根據隨機輸入生成新資料", "根據輸入Prompt生成文字、圖片或其他媒體", "只能用於生成圖片內容", "是一種舊型AI軟體"], "answer": 1, "explanation": "生成式AI的主要運作方式是「根據使用者輸入的提示詞（Prompt）來理解需求，進而生成對應的文字、圖片、音訊或其他媒體內容」。"}, {"id": 84, "question": "ChatGPT系列模型由下列哪個機構開發？", "options": ["Google", "Meta", "Microsoft", "OpenAI"], "answer": 3, "explanation": "知名的ChatGPT（Generative Pre-trained Transformer）系列大型語言模型是由人工智慧研究機構「OpenAI」所開發並推出的。"}, {"id": 85, "question": "關於AI生成內容技術 (Artificial Intelligence Generated Content, AIGC) 的運作基礎，下列敘述何者較正確？", "options": ["透過大量資料的整合和分析，生成式AI模型可模擬人類的思考過程", "AIGC可擁有真正的自我意識和情感", "AIGC可運用量子運算進行智慧運算", "AIGC可依靠單一中央控制系統進行操作"], "answer": 0, "explanation": "AIGC的運作基礎是「透過大量資料的整合和分析，讓模型學習語言與知識規律，進而模擬人類的思考與表達過程」，它並無真正的自我意識。"}, {"id": 86, "question": "在教育領域中，AI可以透過分析學生的行為和表現來做什麼？", "options": ["提供個人化的學習建議", "判斷學生的品德特質", "預測學生未來職業", "代替教師進行課程教學"], "answer": 0, "explanation": "在教育領域中，AI能透過分析學生的學習歷程、答題表現與行為數據，精準診斷學習弱點並「提供個人化的學習建議」，實現因材施教。"}, {"id": 87, "question": "在商業領域中運用AI生成內容提供即時的線上客戶服務，使得企業能夠更好地滿足客戶的需求，此背後訓練基礎為大型語言模型 (Large Language Model, LLM)，請問下列何為大型語言模型的特性？", "options": ["專門用於視覺辨識和影像處理", "能同時處理語言數據及視覺辨識", "需要人工指導才能完成訓練", "能夠處理龐大的語言數據並生成自然流暢的文本"], "answer": 3, "explanation": "大型語言模型（LLM）經過海量文本訓練，其最核心的特性是「能夠處理龐大的語言數據並生成自然流暢的文本」，適合應用於智慧客服。"}, {"id": 88, "question": "何謂AI生成內容？請選出一個最適合的選項。", "options": ["一種利用人工智慧技術生成文字、圖片或音訊的過程", "一種用於分析大數據的技術", "一種用於機器學習 (Machine Learning, ML) 的演算法", "一種用於擴增實境(Augmented Reality, AR)的工具"], "answer": 0, "explanation": "AI生成內容（AIGC）定義為「一種利用人工智慧技術自動生成文字、圖片、音訊或影片等各類數位內容的過程」。"}, {"id": 89, "question": "AI生成內容在什麼類型的應用特別展現了生成的能力？", "options": ["手動數據分析", "軟體手動測試", "圖片手動編修", "自動文案撰寫"], "answer": 3, "explanation": "「自動文案撰寫」需要理解語境並創造流暢且具吸引力的文字，最能展現AI生成內容（AIGC）在創意與內容產出方面的核心能力。"}, {"id": 90, "question": "生成式AI的出現對數位內容產業的影響為何？", "options": ["使得內容生成的門檻降低、效率明顯提升", "使得內容品質普遍下降", "使得內容產業規模縮小", "使得內容產業壟斷加劇"], "answer": 0, "explanation": "生成式AI讓創作者能快速產出草稿、插圖與影音素材，大幅「使得內容生成的門檻降低、效率明顯提升」，推動數位內容產業蓬勃發展。"}, {"id": 91, "question": "關於使用ChatGPT時，「Prompt」指的為下列何者？", "options": ["ChatGPT介面的顏色方案", "給ChatGPT的命令，以開始對話", "一種會員付費制度", "請求翻譯語言"], "answer": 1, "explanation": "在使用ChatGPT等生成式AI時，「Prompt（提示詞）」是指使用者輸入給AI的指令、問題或背景資訊，用來引導AI生成符合預期的回應。"}, {"id": 92, "question": "以下何者為生成式AI的主要特點？", "options": ["生成式AI無法生成新的內容，只能回答特定問題", "生成式AI可以理解和生成自然語言，並能創造出新的內容", "生成式AI只能在特定領域中工作，無法跨領域生成內容", "生成式AI無法理解影像或視覺內容"], "answer": 1, "explanation": "生成式AI的主要特點是「可以理解和生成自然語言，並能創造出全新的內容」，打破了傳統AI只能進行分類、檢索或固定規則問答的限制。"}, {"id": 93, "question": "關於生成式AI的特色，何者不正確？", "options": ["生成式AI可以自主生成新內容，包括文字、圖片、音樂和其他創意形式", "生成式AI可以根據訓練資料中的模式和結構，生成具有創造性和合理性的內容", "生成式AI的應用範圍非常狹窄，無法進行自動寫作、藝術創作、音樂生成、圖片生成、語言翻譯等應用", "生成式AI能夠提供創意和靈感，為創作者帶來新的想法，協助創作過程，產生獨特且具有創造性的內容"], "answer": 2, "explanation": "生成式AI的應用範圍極為廣泛，涵蓋寫作、藝術、音樂、圖像與翻譯等多元領域，因此說它「應用範圍非常狹窄、無法進行上述應用」是不正確的。"}, {"id": 94, "question": "下列哪一項是智慧交通系統應用AI來提升效率的方法？", "options": ["車輛改裝", "引擎檢測", "喇叭控制", "決定最佳路線"], "answer": 3, "explanation": "智慧交通系統可運用AI即時分析路況、車流與事故資訊，為駕駛與物流車輛動態規劃並「決定最佳路線」，有效節省通行時間並提升效率。"}, {"id": 95, "question": "透過訓練「客服機器人」，可模擬品牌風格的口吻，一致性地回覆消費者需求，可使企業獲得何種成效？", "options": ["讓客戶等待更長的時間", "具備個人化服務與更高的效率", "需要付出過多的人力成本和費用支出", "產生更多的客戶投訴"], "answer": 1, "explanation": "透過訓練具備品牌語氣的AI客服機器人，企業能全天候即時回應顧客問題，不僅提供一致且「具備個人化服務，還能大幅提升客服效率」並降低成本。"}, {"id": 96, "question": "GPT模型主要用於哪一領域？", "options": ["圖片生成", "文字生成", "聲音合成", "硬體資源的配置"], "answer": 1, "explanation": "GPT（Generative Pre-trained Transformer）是一種大型語言模型，其主要專長與應用領域在於「文字生成」、對話問答、翻譯與文章摘要。"}];
+
+    const QUIZ_CONFIG = {
+      targetCount: 80,
+      pointsPerQuestion: 2.5,
+      totalSeconds: 90 * 60 // 90 分鐘 = 5400 秒
+    };
+
+    const OPTION_LABELS = ["A", "B", "C", "D"];
+
+    // 測驗狀態
+    let quizState = {
+      questions: [],       // 本次抽選與洗牌後的題目陣列
+      userAnswers: [],     // 每題選擇的選項索引 (null 表示未作答)
+      currentIndex: 0,
+      remainingSeconds: QUIZ_CONFIG.totalSeconds,
+      timerId: null,
+      startTime: null,
+      isSubmitted: false
+    };
+
+    // DOM 參照
+    const homeView = document.getElementById("homeView");
+    const quizView = document.getElementById("quizView");
+    const resultView = document.getElementById("resultView");
+    const confirmModal = document.getElementById("confirmModal");
+
+    // 初始化首頁資訊
+    function initHomeInfo() {
+      const actualCount = Math.min(QUIZ_CONFIG.targetCount, QUESTION_BANK.length);
+      const maxScore = actualCount * QUIZ_CONFIG.pointsPerQuestion;
+      document.getElementById("homeTotalQ").textContent = `${actualCount} 題`;
+      document.getElementById("homeMaxScore").textContent = `${maxScore} 分`;
+    }
+
+    // Fisher-Yates 洗牌演算法
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // HTML 跳脫處理，確保特殊符號與程式碼正確顯示
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    // 建立單次測驗題組（抽題 + 題目洗牌 + 選項洗牌並維持正確答案對應）
+    function prepareQuizQuestions() {
+      const count = Math.min(QUIZ_CONFIG.targetCount, QUESTION_BANK.length);
+      const sampled = shuffleArray(QUESTION_BANK).slice(0, count);
+
+      return sampled.map((item, idx) => {
+        const indexedOptions = item.options.map((text, optIdx) => ({
+          text: text,
+          isCorrect: optIdx === item.answer
+        }));
+        const shuffledOptions = shuffleArray(indexedOptions);
+        const newCorrectIndex = shuffledOptions.findIndex(o => o.isCorrect);
+
+        return {
+          examOrder: idx + 1,
+          originalId: item.id,
+          question: item.question,
+          options: shuffledOptions.map(o => o.text),
+          correctIndex: newCorrectIndex,
+          explanation: item.explanation
+        };
+      });
+    }
+
+    // 開始或重新開始測驗
+    function startNewQuiz() {
+      stopTimer();
+
+      const prepared = prepareQuizQuestions();
+      quizState = {
+        questions: prepared,
+        userAnswers: new Array(prepared.length).fill(null),
+        currentIndex: 0,
+        remainingSeconds: QUIZ_CONFIG.totalSeconds,
+        timerId: null,
+        startTime: Date.now(),
+        isSubmitted: false
+      };
+
+      homeView.classList.add("hidden");
+      resultView.classList.add("hidden");
+      confirmModal.classList.add("hidden");
+      quizView.classList.remove("hidden");
+
+      buildNavGrid();
+      renderCurrentQuestion();
+      updateProgressUI();
+      updateTimerDisplay();
+      startTimer();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 計時器控制
+    function startTimer() {
+      stopTimer();
+      quizState.timerId = setInterval(() => {
+        if (quizState.isSubmitted) {
+          stopTimer();
+          return;
+        }
+        quizState.remainingSeconds -= 1;
+        if (quizState.remainingSeconds <= 0) {
+          quizState.remainingSeconds = 0;
+          updateTimerDisplay();
+          stopTimer();
+          finishQuiz(true);
+        } else {
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (quizState.timerId !== null) {
+        clearInterval(quizState.timerId);
+        quizState.timerId = null;
+      }
+    }
+
+    function updateTimerDisplay() {
+      const sec = Math.max(0, quizState.remainingSeconds);
+      const mins = Math.floor(sec / 60);
+      const remSecs = sec % 60;
+      const formatted = `${String(mins).padStart(2, "0")}:${String(remSecs).padStart(2, "0")}`;
+
+      const timerDisplay = document.getElementById("timerDisplay");
+      const timerBox = document.getElementById("timerBox");
+      timerDisplay.textContent = formatted;
+
+      timerBox.classList.remove("warn-10", "warn-5", "warn-1");
+      if (sec <= 60) {
+        timerBox.classList.add("warn-1");
+      } else if (sec <= 300) {
+        timerBox.classList.add("warn-5");
+      } else if (sec <= 600) {
+        timerBox.classList.add("warn-10");
+      }
+    }
+
+    // 建立題號導覽按鈕
+    function buildNavGrid() {
+      const grid = document.getElementById("questionNavGrid");
+      grid.innerHTML = "";
+      quizState.questions.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "q-num-btn";
+        btn.textContent = idx + 1;
+        btn.setAttribute("aria-label", `跳至第 ${idx + 1} 題`);
+        btn.addEventListener("click", () => {
+          if (quizState.isSubmitted) return;
+          quizState.currentIndex = idx;
+          renderCurrentQuestion();
+          updateNavGridHighlight();
+        });
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateNavGridHighlight() {
+      const buttons = document.getElementById("questionNavGrid").children;
+      for (let i = 0; i < buttons.length; i++) {
+        const btn = buttons[i];
+        btn.classList.toggle("answered", quizState.userAnswers[i] !== null);
+        btn.classList.toggle("current", i === quizState.currentIndex);
+      }
+    }
+
+    // 渲染目前題目與選項
+    function renderCurrentQuestion() {
+      const idx = quizState.currentIndex;
+      const total = quizState.questions.length;
+      const qObj = quizState.questions[idx];
+      const selectedOpt = quizState.userAnswers[idx];
+
+      document.getElementById("headerCurrentQ").textContent = `第 ${idx + 1} 題 / ${total} 題`;
+      document.getElementById("qBadge").textContent = `第 ${idx + 1} 題`;
+
+      const statusTag = document.getElementById("qStatusTag");
+      if (selectedOpt !== null) {
+        statusTag.textContent = `已選擇 ${OPTION_LABELS[selectedOpt]}`;
+        statusTag.className = "q-answered-tag done";
+      } else {
+        statusTag.textContent = "尚未作答";
+        statusTag.className = "q-answered-tag pending";
+      }
+
+      document.getElementById("questionText").innerHTML = escapeHTML(qObj.question);
+
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      qObj.options.forEach((optText, optIdx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn" + (selectedOpt === optIdx ? " selected" : "");
+        btn.innerHTML = `
+          <span class="option-prefix">${OPTION_LABELS[optIdx]}</span>
+          <span class="option-content">${escapeHTML(optText)}</span>
+        `;
+        btn.addEventListener("click", () => {
+          if (quizState.isSubmitted) return;
+          quizState.userAnswers[idx] = optIdx;
+          renderCurrentQuestion();
+          updateProgressUI();
+          updateNavGridHighlight();
+        });
+        optionsContainer.appendChild(btn);
+      });
+
+      document.getElementById("btnPrevQ").disabled = (idx === 0);
+      document.getElementById("btnNextQ").disabled = (idx === total - 1);
+      updateNavGridHighlight();
+    }
+
+    // 更新作答進度
+    function updateProgressUI() {
+      const total = quizState.questions.length;
+      const answeredCount = quizState.userAnswers.filter(ans => ans !== null).length;
+      const unansweredCount = total - answeredCount;
+      const percent = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
+
+      document.getElementById("headerAnsweredCount").textContent = `已完成 ${answeredCount} / ${total} 題`;
+      document.getElementById("topProgressFill").style.width = `${percent}%`;
+
+      document.getElementById("navAnswered").textContent = answeredCount;
+      document.getElementById("navUnanswered").textContent = unansweredCount;
+      document.getElementById("navPercent").textContent = `${percent}%`;
+    }
+
+    // 交卷確認視窗
+    function openSubmitConfirm() {
+      if (quizState.isSubmitted) return;
+      const total = quizState.questions.length;
+      const answeredCount = quizState.userAnswers.filter(ans => ans !== null).length;
+      const unansweredCount = total - answeredCount;
+
+      const warnEl = document.getElementById("modalUnansweredWarn");
+      if (unansweredCount > 0) {
+        warnEl.textContent = `您尚有 ${unansweredCount} 題未作答，確定要提交測驗嗎？`;
+        warnEl.classList.remove("hidden");
+      } else {
+        warnEl.classList.add("hidden");
+      }
+
+      confirmModal.classList.remove("hidden");
+    }
+
+    // 完成測驗並計算成績
+    function finishQuiz(isAutoTimeout = false) {
+      if (quizState.isSubmitted) return;
+      quizState.isSubmitted = true;
+      stopTimer();
+      confirmModal.classList.add("hidden");
+
+      const endTime = Date.now();
+      const elapsedSec = Math.min(
+        QUIZ_CONFIG.totalSeconds,
+        Math.max(1, Math.round((endTime - quizState.startTime) / 1000))
+      );
+
+      const totalQ = quizState.questions.length;
+      let answeredCount = 0;
+      let correctCount = 0;
+      const wrongItems = [];
+      const unansweredItems = [];
+
+      quizState.questions.forEach((qObj, idx) => {
+        const userAns = quizState.userAnswers[idx];
+        if (userAns === null) {
+          unansweredItems.push({
+            examOrder: idx + 1,
+            questionData: qObj
+          });
+        } else {
+          answeredCount += 1;
+          if (userAns === qObj.correctIndex) {
+            correctCount += 1;
+          } else {
+            wrongItems.push({
+              examOrder: idx + 1,
+              userAnsIndex: userAns,
+              questionData: qObj
+            });
+          }
+        }
+      });
+
+      const wrongCount = answeredCount - correctCount;
+      const unansweredCount = totalQ - answeredCount;
+      const totalScore = correctCount * QUIZ_CONFIG.pointsPerQuestion;
+      const maxScore = totalQ * QUIZ_CONFIG.pointsPerQuestion;
+      const accuracy = answeredCount > 0
+        ? ((correctCount / answeredCount) * 100).toFixed(1).replace(/\.0$/, "")
+        : "0";
+      const scorePercent = maxScore > 0 ? (totalScore / maxScore) * 100 : 0;
+
+      // 顯示成績總覽
+      document.getElementById("resScore").textContent = Number.isInteger(totalScore) ? totalScore : totalScore.toFixed(1);
+      document.getElementById("resMaxScore").textContent = `/ ${maxScore} 分`;
+      document.getElementById("resCorrect").textContent = `${correctCount} 題`;
+      document.getElementById("resWrong").textContent = `${wrongCount} 題`;
+      document.getElementById("resUnanswered").textContent = `${unansweredCount} 題`;
+      document.getElementById("resAccuracy").textContent = `${accuracy}%`;
+      document.getElementById("resTotalQ").textContent = `${totalQ} 題`;
+
+      const durMin = Math.floor(elapsedSec / 60);
+      const durSec = elapsedSec % 60;
+      document.getElementById("resDuration").textContent = `${durMin}分${String(durSec).padStart(2, "0")}秒`;
+
+      // 圓形分數進度條
+      const ring = document.getElementById("scoreRing");
+      const ringColor = scorePercent >= 60 ? "#1D5BD6" : "#E67E22";
+      ring.style.background = `conic-gradient(${ringColor} ${scorePercent}%, #E2E8F0 ${scorePercent}%)`;
+
+      // 動態鼓勵文字
+      const encourageEl = document.getElementById("resEncourage");
+      let encourageMsg = "";
+      if (scorePercent >= 90) {
+        encourageMsg = "太棒了！你已經充分掌握本次測驗的核心概念，表現非常出色！";
+      } else if (scorePercent >= 80) {
+        encourageMsg = "表現優異！多數觀念已掌握，若再加強少數弱點，成績將更上一層樓。";
+      } else if (scorePercent >= 60) {
+        encourageMsg = "已有不錯的基礎，建議透過錯題解析進一步釐清容易混淆的觀念。";
+      } else {
+        encourageMsg = "別氣餒！測驗是發現學習盲點的好機會，仔細閱讀解析後再挑戰一次。";
+      }
+      if (isAutoTimeout) {
+        encourageMsg = "⏰ 作答時間已到，系統已自動為您交卷。 " + encourageMsg;
+      }
+      encourageEl.textContent = encourageMsg;
+
+      // 渲染錯題與未作答解析
+      renderWrongSection(wrongItems);
+      renderUnansweredSection(unansweredItems);
+
+      quizView.classList.add("hidden");
+      resultView.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 渲染錯題列表
+    function renderWrongSection(wrongItems) {
+      const container = document.getElementById("wrongListContainer");
+      const badge = document.getElementById("wrongBadgeCount");
+      const toolbarBtns = document.getElementById("wrongToolbarBtns");
+
+      badge.textContent = `${wrongItems.length} 題`;
+      container.innerHTML = "";
+
+      if (wrongItems.length === 0) {
+        toolbarBtns.classList.add("hidden");
+        container.innerHTML = `<div class="perfect-msg">🎉 太棒了！本次測驗全部答對，沒有錯題需要檢討。</div>`;
+        return;
+      }
+
+      toolbarBtns.classList.remove("hidden");
+      wrongItems.forEach(item => {
+        const q = item.questionData;
+        const userLabel = OPTION_LABELS[item.userAnsIndex];
+        const userText = q.options[item.userAnsIndex];
+        const corrLabel = OPTION_LABELS[q.correctIndex];
+        const corrText = q.options[q.correctIndex];
+
+        const optionsHtml = q.options.map((opt, idx) => {
+          let cls = "review-opt";
+          let tag = "";
+          if (idx === q.correctIndex) {
+            cls += " opt-correct";
+            tag = " ✔ 正確答案";
+          } else if (idx === item.userAnsIndex) {
+            cls += " opt-wrong";
+            tag = " ✘ 你的選擇";
+          }
+          return `<li class="${cls}"><strong>(${OPTION_LABELS[idx]})</strong> ${escapeHTML(opt)}${tag}</li>`;
+        }).join("");
+
+        const card = document.createElement("div");
+        card.className = "review-item wrong-item";
+        card.innerHTML = `
+          <div class="review-item-header" onclick="toggleSingleReview(this)">
+            <div class="review-q-title">
+              <span class="review-q-tag">【第 ${item.examOrder} 題】</span>
+              ${escapeHTML(q.question)}
+            </div>
+            <span class="toggle-icon">收合 ▲</span>
+          </div>
+          <div class="review-item-body">
+            <ul class="review-options">${optionsHtml}</ul>
+            <div class="answer-compare">
+              <div class="ans-row user-wrong">你的答案：(${userLabel}) ${escapeHTML(userText)}</div>
+              <div class="ans-row correct-ans">正確答案：(${corrLabel}) ${escapeHTML(corrText)}</div>
+            </div>
+            <div class="explanation-box">
+              <strong>💡 解析：</strong>${escapeHTML(q.explanation)}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 渲染未作答列表
+    function renderUnansweredSection(unansweredItems) {
+      const sectionCard = document.getElementById("unansweredSectionCard");
+      const btnScrollUnans = document.getElementById("btnScrollUnanswered");
+      const container = document.getElementById("unansweredListContainer");
+      const badge = document.getElementById("unansweredBadgeCount");
+
+      if (unansweredItems.length === 0) {
+        sectionCard.classList.add("hidden");
+        btnScrollUnans.classList.add("hidden");
+        return;
+      }
+
+      sectionCard.classList.remove("hidden");
+      btnScrollUnans.classList.remove("hidden");
+      badge.textContent = `${unansweredItems.length} 題`;
+      container.innerHTML = "";
+
+      unansweredItems.forEach(item => {
+        const q = item.questionData;
+        const corrLabel = OPTION_LABELS[q.correctIndex];
+        const corrText = q.options[q.correctIndex];
+
+        const optionsHtml = q.options.map((opt, idx) => {
+          let cls = "review-opt";
+          let tag = "";
+          if (idx === q.correctIndex) {
+            cls += " opt-correct";
+            tag = " ✔ 正確答案";
+          }
+          return `<li class="${cls}"><strong>(${OPTION_LABELS[idx]})</strong> ${escapeHTML(opt)}${tag}</li>`;
+        }).join("");
+
+        const card = document.createElement("div");
+        card.className = "review-item unanswered-item";
+        card.innerHTML = `
+          <div class="review-item-header" onclick="toggleSingleReview(this)">
+            <div class="review-q-title">
+              <span class="review-q-tag">【第 ${item.examOrder} 題】</span>
+              ${escapeHTML(q.question)}
+            </div>
+            <span class="toggle-icon">收合 ▲</span>
+          </div>
+          <div class="review-item-body">
+            <ul class="review-options">${optionsHtml}</ul>
+            <div class="answer-compare">
+              <div class="ans-row correct-ans">正確答案：(${corrLabel}) ${escapeHTML(corrText)}</div>
+            </div>
+            <div class="explanation-box">
+              <strong>💡 解析：</strong>${escapeHTML(q.explanation)}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 展開/收合單題解析
+    function toggleSingleReview(headerEl) {
+      const body = headerEl.nextElementSibling;
+      const icon = headerEl.querySelector(".toggle-icon");
+      const isHidden = body.classList.toggle("hidden");
+      icon.textContent = isHidden ? "展開 ▼" : "收合 ▲";
+    }
+
+    // 全部展開 / 全部收合
+    function toggleAllReview(containerId, expand) {
+      const container = document.getElementById(containerId);
+      const bodies = container.querySelectorAll(".review-item-body");
+      const icons = container.querySelectorAll(".toggle-icon");
+      bodies.forEach(b => b.classList.toggle("hidden", !expand));
+      icons.forEach(ic => { ic.textContent = expand ? "收合 ▲" : "展開 ▼"; });
+    }
+
+    function scrollToSummary() {
+      document.getElementById("appTop").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // 綁定事件
+    document.getElementById("btnStartQuiz").addEventListener("click", startNewQuiz);
+
+    document.getElementById("btnPrevQ").addEventListener("click", () => {
+      if (quizState.currentIndex > 0) {
+        quizState.currentIndex -= 1;
+        renderCurrentQuestion();
+      }
+    });
+
+    document.getElementById("btnNextQ").addEventListener("click", () => {
+      if (quizState.currentIndex < quizState.questions.length - 1) {
+        quizState.currentIndex += 1;
+        renderCurrentQuestion();
+      }
+    });
+
+    document.getElementById("btnSubmitEarly").addEventListener("click", openSubmitConfirm);
+    document.getElementById("btnCancelSubmit").addEventListener("click", () => {
+      confirmModal.classList.add("hidden");
+    });
+    document.getElementById("btnConfirmSubmit").addEventListener("click", () => {
+      finishQuiz(false);
+    });
+
+    document.getElementById("btnScrollWrong").addEventListener("click", () => {
+      document.getElementById("wrongSectionCard").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("btnScrollUnanswered").addEventListener("click", () => {
+      document.getElementById("unansweredSectionCard").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("btnRestartQuiz").addEventListener("click", startNewQuiz);
+
+    document.getElementById("btnBackHome").addEventListener("click", () => {
+      stopTimer();
+      resultView.classList.add("hidden");
+      quizView.classList.add("hidden");
+      homeView.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 啟動初始化
+    initHomeInfo();
+  </script>
+</body>
+</html>
